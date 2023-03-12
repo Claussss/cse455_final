@@ -1,5 +1,10 @@
-### Birds Birds Birds Kaggle Competittion
+For this competition, we are required to solve an image classification task to identify bird species. 
 
-todauy we
+There are **555 classes**, approximately **38,000 images** in the **train** set, and **10,000** in the **test** set.
 
-![0b23d29cb6364a33a450f1f4fca010ac](https://user-images.githubusercontent.com/48916506/224576381-d08363eb-6dd4-4207-9dc7-1a7321e02602.jpg)
+Here is some sample data.
+
+![image](https://user-images.githubusercontent.com/48916506/224579056-2147e53b-74e0-4a54-90d9-39ae3356da23.png)
+
+
+
