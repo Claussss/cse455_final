@@ -33,24 +33,29 @@ We have attempted to utilize other transformations such as **random vertical fli
 
 # Training
 
-The only components taken from preexisting work are the data_processing function and the training loop, which were taken from the following [tutorial](https://colab.research.google.com/drive/1kHo8VT-onDxbtS3FM77VImG35h_K_Lav?usp=sharing). 
+We make use of **PyTorch** as our principal ML framework. The only components taken from preexisting work are the data_processing function and the training loop, which were taken from the following [tutorial](https://colab.research.google.com/drive/1kHo8VT-onDxbtS3FM77VImG35h_K_Lav?usp=sharing). 
 
-We make use of **PyTorch** as our principal ML framework. Prior to beginning training, we have attempted to address the issue of imbalanced classes by calculating **class weights** by computing (1-class_frequency) for every class and passing it to the **Cross Entropy loss** function, which is employed in our case. In order to monitor the performance of the model, we have created a **validation dataset** comprising **20%** of the training dataset. As the principal performance metric, we utilize **accuracy**. As the optimizer, we employ **SGD** with **custom weight decay and momentum**.
+## Class Weights
+Prior to beginning training, we have attempted to address the issue of imbalanced classes by calculating **class weights** by computing (1-class_frequency) for every class and passing it to the **Cross Entropy loss** function, which is employed in our case. Thus, when calculating gradients, the model will be penalised more severely for making mistakes on the classes that are inadequately represented.
 
-We have tried different batch sizes, and it didn't influence the performance much although smaller batch sizes tend to help to prevent overfitting. Thus, we used **batch size 128** to maximum load our GPU.
+## Hyperparameters
+In order to monitor the performance of the model, we have created a **validation dataset** comprising **20%** of the training dataset. As the principal performance metric, we utilize **accuracy**. As the optimizer, we employ **SGD** with **custom weight decay and momentum**.We have tried different batch sizes, and it didn't influence the performance much although smaller batch sizes tend to help to prevent overfitting. Thus, we used **batch size 128** to maximum load our GPU.
 
+## Progressive resizing
+In order to reduce overfitting, we will train a pretrained ResNet50 model on 128x128 images for 5 epochs with a learning rate of 0.01. Following this, we will continue to train the same model on 224x224 images for 30 epochs, with the learning rate decreasing to 0.001 at the 10th epoch and 0.0001 at the 17th epoch. The weight decay and momentum will remain stable at 0.0005 and 0.9, respectively.
 
-## Splitting the dataset
+We have experimented with various Pytorch schedulers, however, the manually adjusted learning rate produced the most desirable results.
 
-## Splitting training into val and train
-
-## Creating class_weights 
-# Model Training
-optimizer, loss to be optimized, hyperparams, batch size
-## Dynamic resizing
-
-# Final Prediction
+# Evaluation
+Prior to evaluating the model on the test dataset, we have retrained it on the entirety of the dataset without dividing into a validation set.
 ## TTA
+TTA stands for Test Time Augmentation, which is a technique used in machine learning to improve the accuracy of a model's predictions. It involves applying data augmentation techniques to the test data during the inference stage, which can help to reduce overfitting and improve the model's ability to generalize to new data.
+In our implementation, we apply the same transforms we used for training to every test image four times, and make a prediction for each augmented image. We then average the final class probabilities, resulting in a more stable prediction. This yields an approximate 2% increase in accuracy.
 
+
+The final pipeline achieved a score of 83% on the test set.
+
+## Future Work
+We think further work on the dataset might give some performance boost. For example, instead of just using class_weights (which are very close to each other because the number of samples is huge), we could add some samples generated with Mixup augmentation or GANs. Once we have more images, we can try applying bigger models like ResNet101, some Vits.
 
 
