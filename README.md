@@ -86,6 +86,9 @@ We think further work on the dataset might give some performance boost. For exam
 
 [Offline Augmentation Script](https://github.com/Claussss/cse455_final/blob/main/offline_augmentation.py)
 
+
+[Video Presentation](https://youtu.be/JR84dCFYoP0)
+
 Team Members:
 
 Yurii Halychanskyi (yhalyc)
